@@ -4,6 +4,8 @@
 *.o
 *.i
 .*.c[p][p].swp
+*.exe.stackdump
+*.stackdump
 
 
 

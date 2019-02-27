@@ -6,6 +6,7 @@ using namespace std;
 class HasPtr
 {
     friend size_t print(const HasPtr& hp) ;
+    friend inline void swap(HasPtr& ,HasPtr&);
 public:
     HasPtr(const string &s = std::string()) :
         ps(new string(s)), i(0), use(new size_t(1)) {}
@@ -39,6 +40,14 @@ private:
     int i = 0;
     size_t *use;
 };
+
+inline 
+void swap(HasPtr& lhs, HasPtr &rhs)
+{
+	using std::swap;
+	swap(lhs.ps, rhs.ps);
+	swap(lhs.i, rhs.i);
+}
 
 size_t print(const HasPtr& hp)
 {

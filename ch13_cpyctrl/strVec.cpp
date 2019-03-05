@@ -20,6 +20,23 @@ public:
         first_free = cap = data.second;
         return *this;
     }
+    //StrVec(const StrVec &&s) noexcept  :
+    StrVec(StrVec &&s) noexcept  :
+        elements(s.elements), first_free(s.first_free), cap(s.cap) {
+        s.elements = s.first_free = s.cap = nullptr;
+    }
+    //移动赋值运算符
+    StrVec& operator=(StrVec &&rhs) noexcept {
+        //直接检测自赋值
+        if(this != &rhs) {
+            free();
+            elements = rhs.elements;
+            first_free = rhs.first_free;
+            cap = rhs.cap;
+            rhs.elements = rhs.first_free = rhs.cap = nullptr;
+        }
+        return *this;
+    }
     ~StrVec() {
         free();
     }

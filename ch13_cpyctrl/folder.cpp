@@ -1,5 +1,5 @@
 #include "folder.h"
-#include "msg.h"
+//#include "msg.h"
 
 void Folder::addMsg(Message* m) {
     //m_s.insert(m->contents); //error

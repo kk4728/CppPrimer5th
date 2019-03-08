@@ -42,9 +42,15 @@ public:
     }
 
     void push_back(const std::string& s){
-        chk_n_alloc();
+        chk_n_alloc(); //确保空间能容纳新元素
+        //在first_free指向的元素中构造s的一个副本
         alloc.construct(first_free++, s);
     }
+    void push_back(std::string &&s) {
+        chk_n_alloc(); //如果需要的话重新分配内存
+        alloc.construct(first_free++, std::move(s));
+    }
+
     size_t size() const {
         return first_free - elements;
     }
@@ -117,6 +123,11 @@ std::allocator<std::string> StrVec::alloc; // 定义，初始化
 
 void test() {
     StrVec sv;
+    std::string s = "some string or another";
+    sv.push_back(s); //调用push_back(const string& ) ；s为左值
+
+    //调用的差别在于实参是一个左值还是一个右值(从“done”创建的临时对象)
+    sv.push_back("done"); //调用push_back(string&&)
 }
 
 int main()

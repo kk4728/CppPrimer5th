@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <map>
 
 struct absInt {
 
@@ -74,12 +75,36 @@ void f3() {
 
 }
 
+///////////////////////////////////////////////////////////////////
+//普通函数
+int add(int i, int j) {
+    return i + j;
+}
+//lambda表达式
+auto mod = [](int i, int j) { return i % j; };
+//函数对象类
+struct divide
+{
+    int operator() (int denominator, int divisor) {
+        return denominator / divisor;
+    }
+};
+
+void f4() {
+    std::map<std::string, int(*)(int, int)> binops;
+
+    binops.insert({"+", add}); // {"+", add} 是一个pair
+    binops.insert({"+", mod}); //C++11中错误，GCC6.4.0可以编译
+
+}
+
 int main() {
 
     //f();
     //f1();
     //f2();
-    f3();
+    //f3();
+    f4();
 
     return 0;
 }

@@ -95,7 +95,32 @@ void f4() {
 
     binops.insert({"+", add}); // {"+", add} 是一个pair
     binops.insert({"+", mod}); //C++11中错误，GCC6.4.0可以编译
+}
 
+void f5() {
+    std::function<int(int, int)> f1 = add; //函数指针
+    std::function<int(int, int)> f2 = divide(); //函数对象的类的对象
+    std::function<int(int, int)> f3 = [](int i, int j)  //lambda表达式
+        { return i*j; }; //
+
+    std::cout << f1(4,2) << std::endl; //6
+    std::cout << f2(4,2) << std::endl; //2
+    std::cout << f3(4,2) << std::endl; //8
+    
+    std::cout<< "///////////////////////////////////////" << std::endl;
+
+    std::map<std::string, std::function<int(int,int)>> binops = {
+        {"+", add},
+        {"-", std::minus<int>()},
+        {"/",divide()},
+        {"*", [](int i,int j) {return i*j;}},
+        {"%", mod} 
+    };
+    std::cout << binops["+"] (10, 5) << std::endl;
+    std::cout << binops["-"] (10, 5) << std::endl;
+    std::cout << binops["/"] (10, 5) << std::endl;
+    std::cout << binops["*"] (10, 5) << std::endl;
+    std::cout << binops["%"] (10, 5) << std::endl;
 }
 
 int main() {
@@ -104,7 +129,8 @@ int main() {
     //f1();
     //f2();
     //f3();
-    f4();
+    //f4();
+    f5();
 
     return 0;
 }

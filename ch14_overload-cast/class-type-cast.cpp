@@ -42,9 +42,50 @@ void f2() {
     s1 + 3.14 ;
 }
 
+//////////////////////////////////////////////////////
+struct B;
+struct A
+{
+    A() = default;
+    A(const B&);
+};
+struct B 
+{
+    operator A() const;
+};
+
+void f3() {
+    A f(const A&);
+    B b;
+    //A a = f(b); //二义性操作 f(B::operator A()) or f(A::A(const B&))
+}
+
+//////////////////////////////////////////////////////
+struct A1
+{
+    //最好不要创建两个转换源都是算术类型的类型转换
+    A1(int a= 0) {}
+    A1(double) {}
+
+    //最好不要创建两个转换对象都是算术类型的转换
+    operator int() const {}
+    operator double() const {}
+};
+void fA(long double) {}
+
+void f4() {
+    A1 a;
+    //fA(a); //二义性错误，含义是A::operator int()
+             //还是A::operator double() ?
+
+    long lg;
+    //A1 a1(log); //二义性错误： 含义是A::A(int) ? A::A(double)
+}
+
 
 int main()  {
     f1();
+    f3();
 
     return 0;
 }

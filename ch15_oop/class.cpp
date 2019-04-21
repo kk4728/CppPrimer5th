@@ -7,13 +7,21 @@ class A {
 public:
 	A() = default;
 
+	//A& operator=(const A& ) = default;
+
 	virtual ~A() =default;
 
 	virtual void net_work() {
 		cout << "A: net_work() " << endl;
 	};
 
-	void print() {}
+	void print() {
+		cout << "m:addr: " << &m << endl;
+		cout << "A::a:addr: " << &a << endl;
+	}
+
+public:
+	int m;
 
 protected:
 	int a;
@@ -25,8 +33,19 @@ public:
 		cout << "B: net_work() " <<endl;
 	}
 
-	void print() {}
+	void print() {
+		cout << "m:addr: " << &m << endl;
+		cout << "a:addr: " << &a << endl;
+	}
+
+	//B& operator=(const B&) = default;
+	//int m;
 };
+
+class D : public A {}; //OK
+class D1 : private A {}; //OK
+//class D2 : public A; // 声明中不能包含派生列表
+//class D3 : public D3 {}; //不能以自己为基类(自身还未定义)
 
 int main() {
 
@@ -41,7 +60,20 @@ int main() {
 	b1.net_work();
 
 	//a1.a;
+	a1.m = 100;
 	//b1.A::a;
+	a1.print();
+	b1.print();
+	////////////////////
+
+	//A 为基类；B为派生类
+	A a11;
+	//B b11 = a11;
+	//B b12(a11);
+	B b13;
+	A a12 = b13;
+	//b11 = a11;
+	a11 = b13;
 
 	return 0;
 }
